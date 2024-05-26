@@ -6,13 +6,13 @@
 package org.thoughtcrime.securesms.backup.v2.ui.subscription
 
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -29,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.updateLayoutParams
 import org.signal.core.ui.BottomSheets
 import org.signal.core.ui.Buttons
 import org.signal.core.ui.Previews
@@ -37,7 +37,6 @@ import org.thoughtcrime.securesms.R
 import org.thoughtcrime.securesms.backup.v2.MessageBackupTier
 import org.thoughtcrime.securesms.components.settings.app.subscription.donate.gateway.GatewayResponse
 import org.thoughtcrime.securesms.components.settings.app.subscription.models.GooglePayButton
-import org.thoughtcrime.securesms.databinding.PaypalButtonBinding
 import org.thoughtcrime.securesms.payments.FiatMoneyUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,20 +128,20 @@ private fun SheetContent(
 private fun PayPalButton(
   onClick: () -> Unit
 ) {
-  AndroidView(factory = {
-    val view = LayoutInflater.from(it).inflate(R.layout.paypal_button, null)
-    view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-    view
-  }) {
-    val binding = PaypalButtonBinding.bind(it)
-    binding.paypalButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-      marginStart = 0
-      marginEnd = 0
-    }
-
-    binding.paypalButton.setOnClickListener {
-      onClick()
-    }
+  Buttons.LargeTonal(
+    onClick = onClick,
+    colors = ButtonDefaults.buttonColors(
+      containerColor = Color(0xfff6c757)
+    ),
+    modifier = Modifier.fillMaxWidth()
+  )
+  {
+    Icon(
+      painter = painterResource(id = R.drawable.paypal),
+      contentDescription = null,
+      modifier = Modifier.padding(end = 8.dp),
+      tint = Color.Unspecified
+    )
   }
 }
 
